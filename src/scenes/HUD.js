@@ -1,8 +1,13 @@
 import Phaser from "phaser"
 
-export default class Menu extends Phaser.Scene{
+export default class HUD extends Phaser.Scene{
     constructor(){
-        super("menuScreen")
+        super({
+            key:"sideScreen",
+            width:400,
+            height:600,
+            backgroundColor:"#f00"
+        })
     }
 
     create(){

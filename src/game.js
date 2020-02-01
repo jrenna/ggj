@@ -3,7 +3,7 @@ const Phaser = require("phaser")
 import scenes from "./scenes"
 
 const config = {
-    width: 800,
+    width: 1200,
     height: 600,
     backgroundColor: "#333",
     scene: scenes,

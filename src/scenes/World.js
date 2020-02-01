@@ -1,22 +1,48 @@
 import Phaser from "phaser"
+import HUD from "./HUD"
 
 export default class Menu extends Phaser.Scene{
     constructor(){
-        super("mainWorld")
+        super({
+            key: "mainWorld",
+            width:800,
+            height:600
+        })
     }
 
     preload(){
         this.load.spritesheet('robot', 'src/assets/dude.png', {frameWidth:32, frameHeight:48})
         this.load.image('platform', 'src/assets/platform.png');
+        this.load.image('box', 'src/assets/box.png')
     }
     create(){
+        this.hud = this.add.graphics()
+
+        this.hud.fillStyle(0x0033c5, 1)
+
+        this.hud.fillRect(800, 0, 400, 600)
+
+        
         this.platform = this.physics.add.staticGroup()
         this.platform.create(400, 600, 'platform').setScale(2.5).refreshBody()
         
         this.robot = this.physics.add.sprite(400, 100, 'robot');
         this.robot.setBounce(0.5, 0.5);
         this.robot.setCollideWorldBounds(true);
-
+        
+        this.boxes = this.physics.add.group({
+            key: 'box',
+            repeat: 5,
+            setXY: {x:12, y:0, stepX:70}
+        })
+        
+        this.boxes.children.iterate(function (child) {
+            
+            child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
+            child.setScale(0.2)
+            
+        });
+        
         this.anims.create({
             key: 'left',
             frames: this.anims.generateFrameNumbers('robot', { start: 0, end: 3 }),
@@ -36,7 +62,7 @@ export default class Menu extends Phaser.Scene{
             frameRate: 10,
             repeat: -1
         });
-
+        
         this.keys = {
             left : this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A),
             up : this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W),
@@ -44,8 +70,16 @@ export default class Menu extends Phaser.Scene{
             down : this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S),
             jump : this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE)
         }
-
+        
         this.physics.add.collider(this.robot, this.platform)
+        this.physics.add.collider(this.robot, this.hud)
+        this.physics.add.collider(this.boxes, this.platform)
+
+        const touchBox = (robot, box) => {
+            box.disableBody(true, true)
+        }
+
+        this.physics.add.overlap(this.robot, this.boxes, touchBox, null, this)
         
     }
 
@@ -66,7 +100,7 @@ export default class Menu extends Phaser.Scene{
             this.robot.anims.play('turn');
         }
 
-        if (this.keys.jump.isDown && this.robot.body.touching.down){
+        if (this.keys.jump.isDown && (this.robot.body.touching.down || this.robot.body.onFloor())){
             this.robot.setVelocityY(-400);
         }
     }
