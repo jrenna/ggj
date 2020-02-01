@@ -1,5 +1,5 @@
-import Title from "./Title"
-
+import Loading from "./Loading"
 import Menu from "./Menu"
+import World from "./World" 
 
-export default [Title, Menu]
+export default [Loading, Menu, World]
