@@ -13,15 +13,13 @@ export default class Menu extends Phaser.Scene{
     preload(){
         this.load.spritesheet('robot', 'src/assets/dude.png', {frameWidth:32, frameHeight:48})
         this.load.image('platform', 'src/assets/platform.png');
-        this.load.image('box', 'src/assets/box.png')
+        this.load.image('hud', 'src/assets/screen.png');
+        this.load.image('box', 'src/assets/box.png');
     }
     create(){
-        this.hud = this.add.graphics()
+        this.hud = this.physics.add.staticGroup()
 
-        this.hud.fillStyle(0x0033c5, 1)
-
-        this.hud.fillRect(800, 0, 400, 600)
-
+        this.hud.create(800, 0, 'hud').setOrigin(0, 0).refreshBody()
         
         this.platform = this.physics.add.staticGroup()
         this.platform.create(400, 600, 'platform').setScale(2.5).refreshBody()
@@ -72,17 +70,17 @@ export default class Menu extends Phaser.Scene{
         }
         
         this.physics.add.collider(this.robot, this.platform)
-        this.physics.add.collider(this.robot, this.hud)
         this.physics.add.collider(this.boxes, this.platform)
-
+        this.physics.add.collider(this.robot, this.hud)
+        
         const touchBox = (robot, box) => {
             box.disableBody(true, true)
         }
-
+        
         this.physics.add.overlap(this.robot, this.boxes, touchBox, null, this)
         
     }
-
+    
     update(){
         if (this.keys.left.isDown){
             this.robot.setVelocityX(-160);
