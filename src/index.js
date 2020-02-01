@@ -1,3 +1,1 @@
 import "./game"
-
-import "./scenes"
