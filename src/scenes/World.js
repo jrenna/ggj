@@ -23,6 +23,7 @@ class World extends Phaser.Scene{
         this.load.image('platform', 'src/assets/floor.png');
         this.load.image('hud', 'src/assets/frame_fin.png');
         this.load.image('box', 'src/assets/box.png');
+        this.load.image('door', 'src/assets/door.png');
     }
     create(){
         this.instructions = this.add.text(900, 100, 'Move LEFT and RIGHT\nwith A and D\nJUMP with SPACE\nACTIVATE with S')
@@ -30,6 +31,9 @@ class World extends Phaser.Scene{
 
         this.boiler = this.add.sprite(0, 0, 'boiler')
         this.boiler.setOrigin(0, 0).setScale(0.516)
+
+        this.door = this.physics.add.staticGroup()
+        this.door.create(780, 500, 'door').setScale(0.2)
 
         this.hud = this.physics.add.staticGroup()
         this.hud.create(800, 0, 'hud').setOrigin(0, 0).setScale(0.33).refreshBody()
@@ -98,12 +102,24 @@ class World extends Phaser.Scene{
             if(this.fix){
                 box.disableBody(true, true)
                 this.boxesCleared++
-                this.boxText.setText(`Keep searching boxes!\nBoxes Searched: ${this.boxesCleared}`)
+                if(this.boxesCleared < 6){
+                    this.boxText.setText(`Keep searching boxes!\nBoxes Searched: ${this.boxesCleared}`)
+                } else {
+                    this.boxText.setText("Parts found!\nProceed to the door!")
+                }
             }
 
         }
+
+        const touchDoor = (robot, door) => {
+            if(this.boxesCleared === 6){
+                this.scene.start("complete")
+            }
+        }
         
         this.physics.add.overlap(this.robot, this.boxes, touchBox, null, this)
+
+        this.physics.add.overlap(this.robot, this.door, touchDoor, null, this)
         
     }
     
