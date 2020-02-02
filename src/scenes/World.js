@@ -24,6 +24,9 @@ class World extends Phaser.Scene{
         this.load.image('hud', 'src/assets/frame_fin.png');
         this.load.image('box', 'src/assets/box.png');
         this.load.image('door', 'src/assets/door.png');
+
+        this.load.audio("step", "src/assets/384656__morganpurkis__metal-footstep-3.ogg")
+        this.load.audio("calculate", "src/assets/390531__freedomfightervictor__calculating.ogg")
     }
     create(){
         this.instructions = this.add.text(900, 100, 'Move LEFT and RIGHT\nwith A and D\nJUMP with SPACE\nACTIVATE with S')
@@ -58,6 +61,9 @@ class World extends Phaser.Scene{
             child.setScale(0.2)
             
         });
+
+        this.stepSound = this.sound.add("step")
+        this.calculateSound = this.sound.add("calculate")
         
         this.anims.create({
             key: 'left',
@@ -113,6 +119,7 @@ class World extends Phaser.Scene{
 
         const touchDoor = (robot, door) => {
             if(this.boxesCleared === 6){
+                this.calculateSound.play()
                 this.scene.start("complete")
             }
         }
@@ -126,14 +133,20 @@ class World extends Phaser.Scene{
     update(){
         if (this.keys.left.isDown){
             this.fix = false
-            this.robot.setVelocityX(-160);
+            this.robot.setVelocityX(-160)
+            if(!this.stepSound.isPlaying){
+                this.stepSound.play()
+            }
             this.robot.flipX = false
 
             this.robot.anims.play('left', true);
         }
         else if (this.keys.right.isDown){
             this.fix = false
-            this.robot.setVelocityX(160);
+            this.robot.setVelocityX(160)
+            if(!this.stepSound.isPlaying){
+                this.stepSound.play()
+            }
             this.robot.flipX = true
 
             this.robot.anims.play('right', true);
@@ -141,7 +154,7 @@ class World extends Phaser.Scene{
         else if(this.keys.down.isDown && (this.robot.body.touching.down || this.robot.body.onFloor())){
             this.fix = true
             this.robot.setVelocity(0)
-            this.robot.anims.play('hammer', true);
+            this.robot.anims.play('hammer', true)
         }
         else{
             this.fix = false

@@ -39,6 +39,6 @@ class Repair extends Phaser.Scene{
                 {fontSize:"18px"}
             )}, 6000)
 
-        setTimeout(() => {this.scene.start("mainWorld")}, 8000)
+        setTimeout(() => {this.scene.start("mainWorld")}, 8)
     }
 }
