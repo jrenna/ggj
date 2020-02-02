@@ -11,17 +11,17 @@ export default class Menu extends Phaser.Scene{
 
     preload(){
         this.load.spritesheet('robot', 'src/assets/ggj_chamalet_2020.png', {frameWidth:560, frameHeight:760})
-        this.load.image('platform', 'src/assets/platform.png');
-        this.load.image('hud', 'src/assets/screen.png');
+        this.load.image('platform', 'src/assets/floor.png');
+        this.load.image('hud', 'src/assets/frame_fin.png');
         this.load.image('box', 'src/assets/box.png');
     }
     create(){
         this.hud = this.physics.add.staticGroup()
 
-        this.hud.create(800, 0, 'hud').setOrigin(0, 0).refreshBody()
+        this.hud.create(800, 0, 'hud').setOrigin(0, 0).setScale(0.33).refreshBody()
         
         this.platform = this.physics.add.staticGroup()
-        this.platform.create(400, 600, 'platform').setScale(2.5).refreshBody()
+        this.platform.create(400, 600, 'platform').setScale(0.5).refreshBody()
         
         this.robot = this.physics.add.sprite(400, 100, 'robot')
         this.robot.setScale(0.15);
