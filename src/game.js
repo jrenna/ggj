@@ -1,8 +1,7 @@
-const Phaser = require("phaser")
+// import Phaser from "phaser"
+import scenes from "./scenes.index.js"
 
-import scenes from "./scenes"
-
-const config = {
+export default gameConfig = {
     width: 1200,
     height: 600,
     backgroundColor: "#333",
@@ -13,8 +12,4 @@ const config = {
             gravity: { y: 500 }
         }
     }
-}
-
-window.onload = function(){
-    var game = new Phaser.Game(config)
 }

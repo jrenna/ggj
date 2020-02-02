@@ -1,6 +1,8 @@
-import Phaser from "phaser"
+// import Phaser from "phaser"
 
-export default class Loading extends Phaser.Scene{
+// export default 
+
+class Loading extends Phaser.Scene{
     constructor(){
         super("titleScreen")
     }
