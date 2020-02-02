@@ -41,6 +41,6 @@ class Loading extends Phaser.Scene{
             this.add.text(50, 310, this.log5, {fontSize:"18px"})
         }, 20000)
 
-        setTimeout(() => {this.scene.start("repairScreen")}, 23)
+        setTimeout(() => {this.scene.start("repairScreen")}, 23000)
     }
 }
