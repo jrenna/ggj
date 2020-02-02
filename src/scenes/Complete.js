@@ -1,4 +1,6 @@
-class Complete extends Phaser.Scene{
+import Phaser from "phaser"
+
+export default class Complete extends Phaser.Scene{
     constructor(){
         super({key: "complete"})
     }

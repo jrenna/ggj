@@ -1,7 +1,7 @@
-// import Phaser from "phaser"
-import scenes from "./scenes.index.js"
+import Phaser from "phaser"
+import scenes from "./scenes/index.js"
 
-export default gameConfig = {
+const gameConfig = {
     width: 1200,
     height: 600,
     backgroundColor: "#333",
@@ -13,3 +13,6 @@ export default gameConfig = {
         }
     }
 }
+    window.onload = function(){
+       var game = new Phaser.Game(gameConfig)
+    }  

@@ -1,8 +1,6 @@
-// import Phaser from "phaser"
+import Phaser from "phaser"
 
-// export default 
-
-class World extends Phaser.Scene{
+export default class World extends Phaser.Scene{
     constructor(){
         super({
             key: "mainWorld",

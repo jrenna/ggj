@@ -1,8 +1,6 @@
-// import Phaser from "phaser"
+import Phaser from "phaser"
 
-// export default 
-
-class Loading extends Phaser.Scene{
+export default class Loading extends Phaser.Scene{
     constructor(){
         super()
         this.log1 = 'Log 24912: Day 3185\nI did not understand why the humans panicked, \nonly that fear caused them to act in haste, bringing more destruction.'
