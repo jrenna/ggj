@@ -9,6 +9,9 @@ class World extends Phaser.Scene{
             width:800,
             height:600
         })
+        this.boxesCleared = 0
+        this.fix = false
+        this.boxScore = "Start opening boxes!\nBoxes Searched: 0"
     }
 
     preload(){
@@ -22,6 +25,9 @@ class World extends Phaser.Scene{
         this.load.image('box', 'src/assets/box.png');
     }
     create(){
+        this.instructions = this.add.text(900, 100, 'Move LEFT and RIGHT\nwith A and D\nJUMP with SPACE\nACTIVATE with S')
+        this.boxText = this.add.text(900, 200, this.boxScore)
+
         this.boiler = this.add.sprite(0, 0, 'boiler')
         this.boiler.setOrigin(0, 0).setScale(0.516)
 
@@ -89,7 +95,11 @@ class World extends Phaser.Scene{
         this.physics.add.collider(this.robot, this.hud)
         
         const touchBox = (robot, box) => {
-            // box.disableBody(true, true)
+            if(this.fix){
+                box.disableBody(true, true)
+                this.boxesCleared++
+                this.boxText.setText(`Keep searching boxes!\nBoxes Searched: ${this.boxesCleared}`)
+            }
 
         }
         
@@ -99,22 +109,27 @@ class World extends Phaser.Scene{
     
     update(){
         if (this.keys.left.isDown){
+            this.fix = false
             this.robot.setVelocityX(-160);
             this.robot.flipX = false
 
             this.robot.anims.play('left', true);
         }
         else if (this.keys.right.isDown){
+            this.fix = false
             this.robot.setVelocityX(160);
             this.robot.flipX = true
 
             this.robot.anims.play('right', true);
         }
         else if(this.keys.down.isDown && (this.robot.body.touching.down || this.robot.body.onFloor())){
+            this.fix = true
             this.robot.setVelocity(0)
             this.robot.anims.play('hammer', true);
         }
         else{
+            this.fix = false
+
             this.robot.setVelocityX(0);
 
             this.robot.anims.play('turn');
