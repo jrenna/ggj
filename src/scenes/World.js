@@ -1,5 +1,4 @@
 import Phaser from "phaser"
-import HUD from "./HUD"
 
 export default class Menu extends Phaser.Scene{
     constructor(){
@@ -11,7 +10,7 @@ export default class Menu extends Phaser.Scene{
     }
 
     preload(){
-        this.load.spritesheet('robot', 'src/assets/dude.png', {frameWidth:32, frameHeight:48})
+        this.load.spritesheet('robot', 'src/assets/ggj_chamalet_2020.png', {frameWidth:560, frameHeight:760})
         this.load.image('platform', 'src/assets/platform.png');
         this.load.image('hud', 'src/assets/screen.png');
         this.load.image('box', 'src/assets/box.png');
@@ -24,7 +23,8 @@ export default class Menu extends Phaser.Scene{
         this.platform = this.physics.add.staticGroup()
         this.platform.create(400, 600, 'platform').setScale(2.5).refreshBody()
         
-        this.robot = this.physics.add.sprite(400, 100, 'robot');
+        this.robot = this.physics.add.sprite(400, 100, 'robot')
+        this.robot.setScale(0.15);
         this.robot.setBounce(0.5, 0.5);
         this.robot.setCollideWorldBounds(true);
         
@@ -43,21 +43,21 @@ export default class Menu extends Phaser.Scene{
         
         this.anims.create({
             key: 'left',
-            frames: this.anims.generateFrameNumbers('robot', { start: 0, end: 3 }),
-            frameRate: 10,
+            frames: this.anims.generateFrameNumbers('robot', { start: 0, end: 5 }),
+            frameRate: 7,
             repeat: -1
         });
         
-        this.anims.create({
-            key: 'turn',
-            frames: [ { key: 'robot', frame: 4 } ],
-            frameRate: 20
-        });
+        // this.anims.create({
+        //     key: 'turn',
+        //     frames: [ { key: 'robot', frame: 4 } ],
+        //     frameRate: 20
+        // });
         
         this.anims.create({
             key: 'right',
-            frames: this.anims.generateFrameNumbers('robot', { start: 5, end: 8 }),
-            frameRate: 10,
+            frames: this.anims.generateFrameNumbers('robot', { start: 0, end: 5 }),
+            frameRate: 7,
             repeat: -1
         });
         
@@ -84,11 +84,13 @@ export default class Menu extends Phaser.Scene{
     update(){
         if (this.keys.left.isDown){
             this.robot.setVelocityX(-160);
+            this.robot.flipX = false
 
             this.robot.anims.play('left', true);
         }
         else if (this.keys.right.isDown){
             this.robot.setVelocityX(160);
+            this.robot.flipX = true
 
             this.robot.anims.play('right', true);
         }
