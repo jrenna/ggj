@@ -12,14 +12,17 @@ class World extends Phaser.Scene{
     }
 
     preload(){
+        this.load.image('boiler', 'src/assets/boiler.png')
         this.load.spritesheet('robot', 'src/assets/ggj_chamalet_2020.png', {frameWidth:560, frameHeight:760})
         this.load.image('platform', 'src/assets/floor.png');
         this.load.image('hud', 'src/assets/frame_fin.png');
         this.load.image('box', 'src/assets/box.png');
     }
     create(){
-        this.hud = this.physics.add.staticGroup()
+        this.boiler = this.add.sprite(0, 0, 'boiler')
+        this.boiler.setOrigin(0, 0).setScale(0.516)
 
+        this.hud = this.physics.add.staticGroup()
         this.hud.create(800, 0, 'hud').setOrigin(0, 0).setScale(0.33).refreshBody()
         
         this.platform = this.physics.add.staticGroup()
@@ -99,7 +102,7 @@ class World extends Phaser.Scene{
         else{
             this.robot.setVelocityX(0);
 
-            this.robot.anims.play('turn');
+            // this.robot.anims.play('turn');
         }
 
         if (this.keys.jump.isDown && (this.robot.body.touching.down || this.robot.body.onFloor())){
